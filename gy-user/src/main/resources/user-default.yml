@@ -1,0 +1,73 @@
+spring:
+  profiles:
+    active：
+    - default
+---
+server:
+  port: 9004
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:9001/eureka/
+  instance:
+    lease-expiration-duration-in-seconds: 60 #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
+    lease-renewal-interval-in-seconds: 3 #服务刷新时间配置，每隔这个时间会主动心跳一次
+
+spring:
+  profiles: default
+  application:
+    name: gy-user
+  datasource:
+    url: jdbc:mysql://localhost/gy-user?useUnicode=true&useOldAliasMetadataBehavior=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 127.0.0.1
+    password:
+    port: 7000
+    timeout: 10000
+    cluster:  #集群配置，如果是单核，则注释掉即可
+      nodes: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002
+      max-redirects: 3
+    jedis:
+      pool:
+        max-wait: 2000
+        max-active: 32
+        max-idle: 16
+        min-idle: 8
+
+
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.gy.entity
+  global-config:
+    db-config:
+      id-type: auto
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      db-type: mysql
+      #逻辑删除配置
+#      logic-delete-value: 1
+#      logic-not-delete-value: 0
+    refresh: false
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
+## 日志配置
+logback:
+  path: /Users/mac/Documents/work/log
+  level: INFO
+  moduleName: ${spring.application.name}

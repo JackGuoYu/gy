@@ -13,6 +13,8 @@
         <module>gy-eureka</module>
         <module>gy-common</module>
         <module>gy-config</module>
+        <module>gy-gateway</module>
+        <module>gy-user</module>
     </modules>
 
 </project>

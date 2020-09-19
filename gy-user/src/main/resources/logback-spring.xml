@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--logback 日志配置模板，请复制到各自项目当中使用-->
+<configuration>
+    <springProperty name="log.base" source="logback.path" defaultValue="/Users/mac/Documents/work/log"/>
+<!--    <springProperty name="log.base" source="logback.path" defaultValue="/Users/guoyu/Documents/work/log"/>-->
+    <!-- 模块名称， 影响日志配置名，日志文件名 -->
+    <springProperty name="log.moduleName" source="logback.moduleName" defaultValue="gy-user"/>
+    <!-- 日志文件大小 -->
+    <springProperty name="log.level" source="logback.level" defaultValue="INFO"/>
+    <!-- 按天压缩保存，最多保留30天的日志 -->
+    <property name="log.max.history" value="60"/>
+
+    <!--控制台输出 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                <![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{36}.%method<%L> %replace(%caller{1}){'(\bCaller.+?(?=\())|\r|\n|\s*|\t', ''} %msg%n]]></Pattern>
+        </encoder>
+    </appender>
+
+    <!-- 日志文件输出 -->
+    <appender name="file"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.base}/${log.moduleName}/${log.moduleName}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 默认一天更新一次 -->
+            <FileNamePattern>
+                ${log.base}/${log.moduleName}/archive/${log.moduleName}_%d{yyyy-MM-dd}.log.zip
+            </FileNamePattern>
+            <!-- 日志文件最大的保存历史 数量-->
+            <maxHistory>${log.max.history}</maxHistory>
+        </rollingPolicy>
+        <!-- 日志输出的文件的格式 -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                <![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{36}.%method<%L> %msg%n]]></pattern>
+        </layout>
+    </appender>
+
+    <appender name="file-common"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${log.base}/${log.moduleName}/${log.moduleName}-txn.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 默认一天更新一次 -->
+            <FileNamePattern>
+                ${log.base}/${log.moduleName}/archive/${log.moduleName}-txn_%d{yyyy-MM-dd}.log.zip
+            </FileNamePattern>
+            <!-- 日志文件最大的保存历史 数量-->
+            <maxHistory>${log.max.history}</maxHistory>
+        </rollingPolicy>
+        <!-- 日志输出的文件的格式 -->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                <![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%.6thread]%logger{36}.%method<%L> %msg%n]]></pattern>
+        </layout>
+    </appender>
+
+    <logger name="common-log" level="info" additivity="false">
+        <appender-ref ref="file-common"/>
+    </logger>
+
+    <root level="${log.level}">
+        <appender-ref ref="file"/>
+        <appender-ref ref="stdout"/>
+    </root>
+
+</configuration>
