@@ -37,6 +37,18 @@ spring:
         max-active: 32
         max-idle: 16
         min-idle: 8
+    kafka:
+      bootstrap-servers: localhost:9092
+      consumer:
+        group-id: myGroup
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      listener:
+        missing-topics-fatal: false
+
 
 
 

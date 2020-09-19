@@ -2,6 +2,8 @@ package com.gy.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gy.entry.User;
+import com.gy.kafka.producer.KafkaProducer;
+import com.gy.kafka.topic.KafkaTopic;
 import com.gy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
     @GetMapping("/page")
     public Object selectPage(@RequestParam Integer pageIndex){
@@ -43,6 +48,12 @@ public class UserController {
     public Object deleteV2User(@RequestParam Integer id){
         userService.deleteById(id);
         return "删除成功V2";
+    }
+
+    @GetMapping("/kafka/test")
+    public Object sendMsg(@RequestParam String msg){
+        kafkaProducer.send(KafkaTopic.TEST_TOPIC, msg);
+        return "发送成功";
     }
 
 
