@@ -15,6 +15,7 @@
         <module>gy-config</module>
         <module>gy-gateway</module>
         <module>gy-user</module>
+        <module>gy-pay</module>
     </modules>
 
 </project>

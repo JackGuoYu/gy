@@ -25,6 +25,20 @@ spring:
               key-resolver: "#{@ipKeyResolver}"
               redis-rate-limiter.replenishRate: 1
               redis-rate-limiter.burstCapacity: 10
+        - id: gy_pay_route
+          uri: lb://gy-pay
+          predicates:
+            #              - Host=cloud.gy.com**
+            - Path=/api/**
+          filters:
+            #               - PrefixPath=/brand
+            - StripPrefix=1
+            - name: RequestRateLimiter #请求数限流 名字不能随便写 ，使用默认的facatory
+              args:
+                key-resolver: "#{@ipKeyResolver}"
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 10
+
   redis:
     host: 127.0.0.1
     port: 7000

@@ -1,6 +1,8 @@
 package com.gy.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.gy.client.pay.PayClient;
+import com.gy.entry.PayInfo;
 import com.gy.entry.User;
 import com.gy.kafka.producer.KafkaProducer;
 import com.gy.kafka.topic.KafkaTopic;
@@ -11,6 +13,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/user")
@@ -22,6 +25,9 @@ public class UserController {
     @Autowired
     private KafkaProducer kafkaProducer;
 
+    @Autowired
+    private PayClient payClient;
+
     @GetMapping("/page")
     public Object selectPage(@RequestParam Integer pageIndex){
         Page page = new Page(pageIndex,3);
@@ -30,14 +36,14 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public Object selectList(@RequestParam Integer pageIndex){
+    public Page selectList(@RequestParam Integer pageIndex){
         Page page = new Page(pageIndex,3);
         page = userService.selectList(page);
         return page;
     }
 
     @PostMapping("/add")
-    public Object addUser(@RequestBody User user){
+    public String addUser(@RequestBody User user){
         userService.addUser(user);
         return "修改成功";
     }
@@ -74,6 +80,12 @@ public class UserController {
         return this.name + "今年" + this.age + "岁";
     }
 
-
-
+    @GetMapping("/feign/test")
+    public String feginTest(){
+        PayInfo payInfo = new PayInfo();
+        payInfo.setAmount(new BigDecimal(12.24));
+        payInfo.setNote("test");
+        String msg = payClient.addPay(payInfo);
+        return msg;
+    }
 }

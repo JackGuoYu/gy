@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: gy-pay
+  profiles: default
+  cloud:
+    config:
+      uri: http://127.0.0.1:9002
+      name: pay
+      profile: default  # 默认拉取user-default.yml配置文件， 如果是dev，则拉取user-dev.yml文件
