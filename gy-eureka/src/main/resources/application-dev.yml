@@ -1,0 +1,18 @@
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 5
+    prefer-ip-address: true
+  server:
+    eviction-interval-timer-in-ms: 10000
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    service-url:
+      defaultZone: http://127.0.0.1:9001/eureka/
+
+logging:
+  level:
+    com:
+      netflix:
+        eureka: OFF
+        discovery: OFF

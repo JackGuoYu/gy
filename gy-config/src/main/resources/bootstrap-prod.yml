@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri:  https://github.com/JackGuoYu/gy-config.git  #配置文件所在仓库
+          username: JackGuoYu  #登录账号
+          password: gy7343733106  #登录密码
+          default-label: master #配置文件分支
+          search-paths: config-repo  #配置文件所在根目录
+    bus:
+      trace:
+        enabled: true
+  # rabbitmq 用于实现消息总线刷新配置  post调用 http://localhost:9002/actuator/bus-refresh
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+

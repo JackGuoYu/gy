@@ -6,23 +6,50 @@ spring:
     config:
       uri: http://127.0.0.1:9002
       name: user
-      profile: default
-
-mybatis-plus:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.gy.entity
-  global-config:
-    db-config:
-      id-type: auto
-      field-strategy: not_empty
-      #驼峰下划线转换
-      column-underline: true
-      db-type: mysql
-      #逻辑删除配置
-      logic-delete-value: 11
-      logic-not-delete-value: 10
-    refresh: false
-  configuration:
-    map-underscore-to-camel-case: true
-    cache-enabled: false
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+      profile: default  # 默认拉取user-default.yml配置文件， 如果是dev，则拉取user-dev.yml文件
+#    bus:
+#      trace:
+#        enabled: true
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
+#
+#  kafka:
+#    bootstrap-servers: localhost:9092
+#    producer:
+#      key-deserializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#    consumer:
+#      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+#      group-id: myGroup
+#    listener:
+#      missing-topics-fatal: false
+#
+#mybatis-plus:
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.gy.entity
+#  global-config:
+#    db-config:
+#      id-type: auto
+#      field-strategy: not_empty
+#      #驼峰下划线转换
+#      column-underline: true
+#      db-type: mysql
+#      #逻辑删除配置
+#      logic-delete-value: 11
+#      logic-not-delete-value: 10
+#    refresh: false
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    cache-enabled: false
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+#
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'

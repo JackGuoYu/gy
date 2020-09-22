@@ -6,13 +6,15 @@ import com.gy.kafka.producer.KafkaProducer;
 import com.gy.kafka.topic.KafkaTopic;
 import com.gy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/user")
+@RefreshScope   //此配置可检测刷新，在内存中更新配置
 public class UserController {
     @Autowired
     private UserService userService;
@@ -50,11 +52,28 @@ public class UserController {
         return "删除成功V2";
     }
 
+    /**
+     * kafka发送消息测试
+     * @param msg
+     * @return
+     */
     @GetMapping("/kafka/test")
     public Object sendMsg(@RequestParam String msg){
-        kafkaProducer.send(KafkaTopic.TEST_TOPIC, msg);
+        kafkaProducer.send(KafkaTopic.TEST_TOPIC,msg);
         return "发送成功";
     }
+
+    @Value("${user.name}")
+    private String name;
+
+    @Value("${user.age}")
+    private Integer age;
+
+    @GetMapping("/conf/value")
+    public String testConfigValue(){
+        return this.name + "今年" + this.age + "岁";
+    }
+
 
 
 }
