@@ -1,0 +1,95 @@
+spring:
+  application:
+    name: gy-pay
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://localhost/gy-pay?useUnicode=true&useOldAliasMetadataBehavior=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 127.0.0.1
+    password:
+    port: 7000
+    timeout: 10000
+    cluster:  #集群配置，如果是单核，则注释掉即可
+      nodes: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002
+      max-redirects: 3
+    jedis:
+      pool:
+        max-wait: 2000
+        max-active: 32
+        max-idle: 16
+        min-idle: 8
+  cloud:
+    bus:  #开启消息总线
+      trace:
+        enabled: true
+      rabbitmq: #消息中间件
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: myGroup
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    listener:
+      missing-topics-fatal: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+
+#mybatis plus插件配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.gy.entity
+  global-config:
+    db-config:
+      id-type: auto
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      db-type: mysql
+      #逻辑删除配置
+#      logic-delete-value: 1
+#      logic-not-delete-value: 0
+    refresh: false
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
+
+feign:
+  hystrix:
+    enabled: true
+
+ribbon:
+  ReadTimeout: 30000 #读取超时设置
+
+#hystrix 配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+          strategy: SEMAPHORE
+
+
+## 日志配置
+logback:
+  path: /Users/mac/Documents/work/log
+  level: INFO
+  moduleName: ${spring.application.name}

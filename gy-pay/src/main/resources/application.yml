@@ -1,6 +1,16 @@
 server:
   port: 9005
 
+spring:
+  application:
+    name: gy-user
+  main:
+    allow-bean-definition-overriding: true
+#  datasource:
+#    url: jdbc:mysql://localhost/gy-user?useUnicode=true&useOldAliasMetadataBehavior=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+#    username: root
+#    password:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 eureka:
   client:
     service-url:
@@ -9,6 +19,19 @@ eureka:
     lease-expiration-duration-in-seconds: 60 #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
     lease-renewal-interval-in-seconds: 3 #服务刷新时间配置，每隔这个时间会主动心跳一次
 
-feign:
-  hystrix:
-    enabled: true
+#feign:
+#  hystrix:
+#    enabled: true
+#
+#ribbon:
+#  ReadTimeout: 30000 #读取超时设置
+#
+##hystrix 配置
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 10000
+#          strategy: SEMAPHORE

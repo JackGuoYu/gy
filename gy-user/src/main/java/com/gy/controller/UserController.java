@@ -80,6 +80,10 @@ public class UserController {
         return this.name + "今年" + this.age + "岁";
     }
 
+    /**
+     * 远程调用测试
+     * @return
+     */
     @GetMapping("/feign/test")
     public String feginTest(){
         PayInfo payInfo = new PayInfo();
@@ -87,5 +91,14 @@ public class UserController {
         payInfo.setNote("test");
         String msg = payClient.addPay(payInfo);
         return msg;
+    }
+
+    /**
+     * 分布式事务测试
+     */
+    @GetMapping("/add/test")
+    public String addData(){
+        userService.addData();
+        return "添加成功";
     }
 }

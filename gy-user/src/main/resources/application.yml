@@ -4,11 +4,30 @@ server:
 spring:
   application:
     name: gy-user
+  main:
+    allow-bean-definition-overriding: true
+#  datasource:
+#    url: jdbc:mysql://localhost/gy-user?useUnicode=true&useOldAliasMetadataBehavior=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+#    username: root
+#    password:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 
-ribbon:
-  eureka:
-    enabled: true
-
-feign:
-  hystrix:
-    enabled: true
+#ribbon:
+#  ReadTimeout: 30000 #读取超时设置3秒
+#  eureka:
+#    enabled: true
+#
+#feign:
+#  hystrix:
+#    enabled: true
+#
+#
+##hystrix 配置
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 10000  #设置熔断超时时间10秒
+#          strategy: SEMAPHORE

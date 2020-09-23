@@ -16,6 +16,7 @@
         <module>gy-gateway</module>
         <module>gy-user</module>
         <module>gy-pay</module>
+        <module>gy-fescar</module>
     </modules>
 
 </project>
